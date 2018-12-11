@@ -3,15 +3,16 @@ import interface
 import requests
 import re
 
-def create_naughtylist(ui):
+def create_naughtylist(app, ui):
     baseurl = ui.lineEdit.text() + '?c_page='
     ui.label_status.setText("running ...")
+    app.processEvents()
     err404 = False
     page = 0
     channelTag = '<a href="/channel/'
     error = "<title>404"
 
-    file = open("naughtylist.txt","w")
+    file = open("naughtylist.txt","a")
 
     while err404 == False:
         page += 1
@@ -41,8 +42,8 @@ def create_naughtylist(ui):
     ui.label_status.setText("finished!")
 
 
-def connect_button(ui):
-    ui.pushButton.clicked.connect(lambda: create_naughtylist(ui))
+def connect_button(app, ui):
+    ui.pushButton.clicked.connect(lambda: create_naughtylist(app, ui))
 
 class MainWindow(QtWidgets.QMainWindow, interface.Ui_MainWindow):
     def __init__(self, parent=None):
@@ -54,6 +55,6 @@ if __name__ == "__main__":
     #create application object
     app = QtWidgets.QApplication(sys.argv)
     ui = MainWindow()
-    connect_button(ui)
+    connect_button(app, ui)
     ui.show()
     sys.exit(app.exec_())
