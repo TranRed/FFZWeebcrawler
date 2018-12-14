@@ -5,8 +5,7 @@ import re
 
 def create_naughtylist(app, ui):
     baseurl = ui.lineEdit.text() + '?c_page='
-    ui.label_status.setText("running ...")
-    app.processEvents()
+
     err404 = False
     page = 0
     channelTag = '<a href="/channel/'
@@ -25,6 +24,10 @@ def create_naughtylist(app, ui):
             err404 = True
 
         if err404 == False:
+            status = "running ... Page: " + str(page)
+            ui.label_status.setText(status)
+            app.processEvents()
+
             for match in re.finditer(channelTag, source):
                 notEnded = True
                 i = match.end()
